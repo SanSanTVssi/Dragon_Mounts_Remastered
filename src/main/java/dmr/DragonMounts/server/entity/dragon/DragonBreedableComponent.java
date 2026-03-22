@@ -109,6 +109,13 @@ abstract class DragonBreedableComponent extends DragonBreedComponent {
         }
         updateAgeProperties();
     }
+	
+	/** Sets the age of the dragon. Overload for nullable age. */
+	public void setAge(Integer age) {
+		if (age != null) {
+			this.setAge(age.intValue());
+		}
+	}
 
     /** Updates the age-related properties of the dragon. */
     public void updateAgeProperties() {

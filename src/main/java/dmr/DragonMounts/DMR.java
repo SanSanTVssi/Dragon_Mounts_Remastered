@@ -8,7 +8,8 @@ import dmr.DragonMounts.config.ClientConfig;
 import dmr.DragonMounts.config.ServerConfig;
 import dmr.DragonMounts.network.packets.PacketRegistry;
 import dmr.DragonMounts.registry.*;
-import dmr.DragonMounts.server.commands.DMRCommand;
+import dmr.DragonMounts.server.commands.dmr.DMRCommand;
+import dmr.DragonMounts.server.commands.dragon.router.DragonCommandRouter;
 import dmr.DragonMounts.server.events.LootTableInject;
 import dmr.DragonMounts.types.DataPackHandler;
 import dmr.DragonMounts.types.abilities.types.Ability;
@@ -109,6 +110,7 @@ public class DMR {
     public void registerCommands(RegisterCommandsEvent event) {
         CommandDispatcher<CommandSourceStack> commandDispatcher = event.getDispatcher();
         DMRCommand.register(commandDispatcher);
+	    DragonCommandRouter.register(commandDispatcher);
     }
 
     public static ResourceLocation id(String path) {
