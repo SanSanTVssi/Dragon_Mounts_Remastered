@@ -1,4 +1,4 @@
-package dmr.DragonMounts.server.commands;
+package dmr.DragonMounts.server.commands.dmr;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;

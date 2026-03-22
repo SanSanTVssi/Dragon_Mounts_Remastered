@@ -85,7 +85,13 @@ neoForge {
         }
         client {
             client()
-            devLogin = true
+//            programArguments.set([])
+//            jvmArguments.set([])
+//            systemProperties.set([:])
+            programArguments.addAll(
+                    "--username", "Dev",
+                    "--uuid", "00000000-0000-0000-0000-000000000000"
+            )
         }
         server {
             server()
