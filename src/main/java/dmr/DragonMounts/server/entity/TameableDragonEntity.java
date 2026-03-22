@@ -9,6 +9,7 @@ import dmr.DragonMounts.config.ServerConfig;
 import dmr.DragonMounts.registry.ModCriterionTriggers;
 import dmr.DragonMounts.server.ai.DragonAI;
 import dmr.DragonMounts.server.entity.dragon.AbstractDragonEntity;
+import dmr.DragonMounts.server.entity.dragon.AgeControlledDragonEntity;
 import dmr.DragonMounts.server.inventory.DragonInventoryHandler.DragonInventory;
 import dmr.DragonMounts.server.worlddata.DragonWorldDataManager;
 import dmr.DragonMounts.util.PlayerStateUtils;
@@ -40,7 +41,7 @@ import net.neoforged.neoforge.common.NeoForgeMod;
 import org.jetbrains.annotations.Nullable;
 
 @Getter
-public class TameableDragonEntity extends AbstractDragonEntity {
+public class TameableDragonEntity extends AgeControlledDragonEntity {
 
     public TameableDragonEntity(EntityType<? extends TamableAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);

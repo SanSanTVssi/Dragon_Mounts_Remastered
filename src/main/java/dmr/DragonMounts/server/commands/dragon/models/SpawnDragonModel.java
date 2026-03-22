@@ -10,26 +10,36 @@ public class SpawnDragonModel {
 	private final Vec3 position;
 	private final CompoundTag nbt;
 	private final Integer age;
+	private final DragonSpawnExtras extras;
 	
-	private SpawnDragonModel(String breed, Vec3 position, CompoundTag nbt, Integer age) {
+	private SpawnDragonModel(
+			String breed,
+			Vec3 position,
+			Integer age,
+			DragonSpawnExtras extras,
+			CompoundTag nbt
+	) {
 		this.breed = breed;
 		this.position = position;
-		this.nbt = nbt;
 		this.age = age;
+		this.extras = extras;
+		this.nbt = nbt;
 	}
 	
 	public static SpawnDragonModel create(
 			String breed,
 			Vec3 position,
-			CompoundTag nbt,
 			Integer age,
+			DragonSpawnExtras extras,
+			CompoundTag nbt,
 			CommandSourceStack source
 	) {
 		return new SpawnDragonModel(
 				breed,
 				position != null ? position : source.getPosition(),
-				nbt != null ? nbt : new CompoundTag(),
-				age
+				age,
+				extras != null ? extras : new DragonSpawnExtras(),
+				nbt != null ? nbt : new CompoundTag()
 		);
 	}
 	
@@ -41,11 +51,15 @@ public class SpawnDragonModel {
 		return position;
 	}
 	
-	public CompoundTag nbt() {
-		return nbt;
-	}
-	
 	public Integer age() {
 		return age;
+	}
+	
+	public DragonSpawnExtras extras() {
+		return extras;
+	}
+	
+	public CompoundTag nbt() {
+		return nbt;
 	}
 }

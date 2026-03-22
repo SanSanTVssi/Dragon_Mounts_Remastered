@@ -3,6 +3,7 @@ package dmr.DragonMounts.server.commands.dragon.parsers;
 import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import dmr.DragonMounts.registry.DragonBreedsRegistry;
+import dmr.DragonMounts.server.commands.dragon.models.DragonSpawnExtras;
 import dmr.DragonMounts.server.commands.dragon.models.SpawnDragonModel;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +20,7 @@ public class SpawnCommandParser implements CommandParser<SpawnDragonModel> {
 		String breed = null;
 		Vec3 pos = null;
 		Integer age = null;
+		DragonSpawnExtras extras = new DragonSpawnExtras();
 		CompoundTag nbt = null;
 		
 		var tokens = input.split(" ");
@@ -40,6 +42,14 @@ public class SpawnCommandParser implements CommandParser<SpawnDragonModel> {
 					age = AgeArgParser.parse(tokens[++i]);
 				}
 				
+				case "max_age" -> {
+					if (i + 1 >= tokens.length) {
+						throw new IllegalArgumentException("Invalid max_age");
+					}
+					
+					extras.setMaxAge(Integer.parseInt(tokens[++i]));
+				}
+				
 				case "nbt" -> {
 					var raw = String.join(" ", java.util.Arrays.copyOfRange(tokens, i + 1, tokens.length));
 					
@@ -49,7 +59,7 @@ public class SpawnCommandParser implements CommandParser<SpawnDragonModel> {
 						throw new IllegalArgumentException("Invalid NBT");
 					}
 					
-					return SpawnDragonModel.create(breed, pos, nbt, age, source);
+					return SpawnDragonModel.create(breed, pos, age, extras, nbt, source);
 				}
 				
 				default -> {
@@ -58,7 +68,7 @@ public class SpawnCommandParser implements CommandParser<SpawnDragonModel> {
 			}
 		}
 		
-		return SpawnDragonModel.create(breed, pos, nbt, age, source);
+		return SpawnDragonModel.create(breed, pos, age, extras, nbt, source);
 	}
 	
 	@Override

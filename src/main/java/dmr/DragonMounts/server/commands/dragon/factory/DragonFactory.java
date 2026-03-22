@@ -20,6 +20,7 @@ public class DragonFactory {
 		dragon.setBreed(DragonBreedsRegistry.getDragonBreed(dragonModel.breed()));
 		dragon.setPos(dragonModel.position().x, dragonModel.position().y, dragonModel.position().z);
 		dragon.setAge(dragonModel.age());
+		dragon.setMaxAge(dragonModel.extras().getMaxAge());
 		
 		return dragon;
 	}

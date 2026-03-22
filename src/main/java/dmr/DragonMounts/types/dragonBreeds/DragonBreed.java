@@ -60,8 +60,8 @@ public class DragonBreed implements IDragonBreed {
     private int growthTime = -1;
 
     @Override
-    public int getGrowthTime() {
-        return getValueOrDefault(growthTime, (int) (ServerConfig.GROWTH_TIME_CONFIG * 20));
+    public int getGrowthTimeSec() {
+        return getValueOrDefault(growthTime, (int) (ServerConfig.GROWTH_TIME_CONFIG_SEC * 20));
     }
 
     @SerializedName("size_modifier")
