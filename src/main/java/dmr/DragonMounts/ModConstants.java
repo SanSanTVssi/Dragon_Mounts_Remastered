@@ -3,6 +3,7 @@ package dmr.DragonMounts;
 public class ModConstants {
 
     public static final String VARIANT_DIVIDER = "$";
+	public static final int TICKS_PER_SECOND = 20;
 
     public static class DragonConstants {
 

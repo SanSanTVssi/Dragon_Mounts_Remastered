@@ -3,12 +3,11 @@ package dmr.DragonMounts.server.commands.dragon.parsers;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
-import dmr.DragonMounts.server.commands.dragon.models.SpawnDragonModel;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.world.phys.Vec3;
 
-public final class ArgParsers {
+public final class BrigadierArgParsers {
 	
 	public static Integer parseAge(CommandContext<CommandSourceStack> ctx) {
 		if (has(ctx, "age")) return null;
@@ -23,6 +22,11 @@ public final class ArgParsers {
 	public static String parseBreed(CommandContext<CommandSourceStack> ctx) {
 		if (has(ctx, "breed")) return null;
 		return StringArgumentType.getString(ctx, "breed");
+	}
+	
+	public static String parseArgsRaw(CommandContext<CommandSourceStack> ctx) {
+		if (has(ctx, "args")) return null;
+		return StringArgumentType.getString(ctx, "args");
 	}
 	
 	private static boolean has(CommandContext<?> ctx, String name) {
