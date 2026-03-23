@@ -1,51 +1,34 @@
 package dmr.DragonMounts.server.commands.dragon.models;
 
+import com.mojang.brigadier.context.CommandContext;
+import dmr.DragonMounts.server.commands.dragon.parsers.ArgParsers;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
+@Getter
+@Setter
 public class SpawnDragonModel {
 	
-	private final String breed;
-	private final Vec3 position;
-	private final CompoundTag nbt;
-	private final Integer age;
+	private String breed;
+	private Vec3 position;
+	private CompoundTag nbt = new CompoundTag();
+	private Integer age;
 	
-	private SpawnDragonModel(String breed, Vec3 position, CompoundTag nbt, Integer age) {
-		this.breed = breed;
-		this.position = position;
-		this.nbt = nbt;
-		this.age = age;
-	}
-	
-	public static SpawnDragonModel create(
-			String breed,
-			Vec3 position,
-			CompoundTag nbt,
-			Integer age,
-			CommandSourceStack source
-	) {
-		return new SpawnDragonModel(
-				breed,
-				position != null ? position : source.getPosition(),
-				nbt != null ? nbt : new CompoundTag(),
-				age
-		);
-	}
-	
-	public String breed() {
-		return breed;
-	}
-	
-	public Vec3 position() {
-		return position;
-	}
-	
-	public CompoundTag nbt() {
-		return nbt;
-	}
-	
-	public Integer age() {
-		return age;
+	public static SpawnDragonModel parse(CommandContext<CommandSourceStack> ctx) {
+		var model = new SpawnDragonModel();
+		
+		var age = ArgParsers.parseAge(ctx);
+		if (age != null) model.setAge(age);
+		
+		var pos = ArgParsers.parsePos(ctx);
+		if (pos != null) model.setPosition(pos);
+		
+		var breed = ArgParsers.parseBreed(ctx);
+		if (breed != null) model.setBreed(breed);
+		
+		return model;
 	}
 }

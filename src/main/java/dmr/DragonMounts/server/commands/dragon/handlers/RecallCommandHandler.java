@@ -1,40 +1,22 @@
 package dmr.DragonMounts.server.commands.dragon.handlers;
 
+import com.mojang.brigadier.context.CommandContext;
 import dmr.DragonMounts.server.commands.dragon.models.RecallModel;
+import dmr.DragonMounts.server.commands.dragon.parsers.ArgParsers;
 import dmr.DragonMounts.server.entity.TameableDragonEntity;
 import dmr.DragonMounts.server.worlddata.DragonWorldDataManager;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.arguments.UuidArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.EntityType;
 
-public class RecallCommandHandler implements CommandHandler<RecallModel> {
-	
-	@Override
-	public int handle(CommandSourceStack source, RecallModel model) {
+public class RecallCommandHandler {
+	public static int handle(CommandContext<CommandSourceStack> ctx) {
+		var id = UuidArgument.getUuid(ctx, "id");
+		var pos = ArgParsers.parsePos(ctx);
 		
-		var history = DragonWorldDataManager.getDragonHistory(source.getLevel(), model.id());
-		
-		if (history == null) {
-			source.sendFailure(Component.literal("Dragon not found"));
-			return 0;
-		}
-		
-		var nbt = history.compoundTag();
-		var level = source.getLevel();
-		
-		var type = EntityType.by(nbt);
-		if (type.isEmpty()) return 0;
-		
-		var entity = type.get().create(level);
-		
-		if (entity instanceof TameableDragonEntity dragon) {
-			dragon.load(nbt);
-			dragon.setUUID(model.id());
-			
-			var pos = model.pos() != null ? model.pos() : source.getPosition();
-			dragon.setPos(pos.x, pos.y, pos.z);
-			
-			level.addFreshEntity(dragon);
+		if (pos == null) {
+			pos = ctx.getSource().getPosition();
 		}
 		
 		return 1;

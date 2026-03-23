@@ -16,10 +16,10 @@ public class DragonFactory {
 			throw new IllegalStateException("Dragon entity type mismatch");
 		}
 		
-		dragon.load(dragonModel.nbt());
-		dragon.setBreed(DragonBreedsRegistry.getDragonBreed(dragonModel.breed()));
-		dragon.setPos(dragonModel.position().x, dragonModel.position().y, dragonModel.position().z);
-		dragon.setAge(dragonModel.age());
+		dragon.load(dragonModel.getNbt());
+		dragon.setBreed(DragonBreedsRegistry.getDragonBreed(dragonModel.getBreed()));
+		dragon.setPos(dragonModel.getPosition().x, dragonModel.getPosition().y, dragonModel.getPosition().z);
+		dragon.setAge(dragonModel.getAge());
 		
 		return dragon;
 	}
