@@ -1,32 +1,37 @@
 package dmr.DragonMounts.server.commands.dragon.handlers;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.context.CommandContext;
 import dmr.DragonMounts.network.packets.CompleteDataSync;
-import dmr.DragonMounts.server.commands.dragon.models.ClearWhistleModel;
 import dmr.DragonMounts.util.PlayerStateUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class ClearWhistleHandler implements CommandHandler<ClearWhistleModel> {
+public class ClearWhistleHandler {
 	
-	@Override
-	public int handle(CommandSourceStack source, ClearWhistleModel model) {
+	public static int handle(CommandContext<CommandSourceStack> ctx) {
+		var source = ctx.getSource();
 		
-		var player = source.getPlayer();
-		var handler = PlayerStateUtils.getHandler(player);
+		var colorName = StringArgumentType.getString(ctx, "color");
+		var color = DyeColor.byName(colorName, DyeColor.WHITE);
 		
-		var id = model.color().getId();
+		var handler = PlayerStateUtils.getHandler(source.getPlayer());
 		
-		handler.dragonNBTs.remove(id);
-		handler.dragonInstances.remove(id);
-		handler.respawnDelays.remove(id);
+		handler.dragonNBTs.remove(color.getId());
+		handler.dragonInstances.remove(color.getId());
+		handler.respawnDelays.remove(color.getId());
 		
-		PacketDistributor.sendToPlayer(player, new CompleteDataSync(player));
+		PacketDistributor.sendToPlayer(
+				source.getPlayer(),
+				new CompleteDataSync(source.getPlayer())
+		);
 		
 		source.sendSuccess(
 				() -> Component.translatable(
 						"dmr.commands.clear_whistle.success",
-						Component.translatable("color.minecraft." + model.color().getName())
+						Component.translatable("color.minecraft." + color.getName())
 				),
 				true
 		);

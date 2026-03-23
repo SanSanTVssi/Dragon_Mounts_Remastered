@@ -6,7 +6,7 @@ import dmr.DragonMounts.server.commands.dragon.models.SpawnDragonModel;
 import dmr.DragonMounts.server.entity.TameableDragonEntity;
 import net.minecraft.server.level.ServerLevel;
 
-public class DragonFactory {
+public class DragonSpawner {
 	
 	public static TameableDragonEntity create(ServerLevel level, SpawnDragonModel dragonModel) {
 		
@@ -16,11 +16,11 @@ public class DragonFactory {
 			throw new IllegalStateException("Dragon entity type mismatch");
 		}
 		
-		dragon.load(dragonModel.nbt());
-		dragon.setBreed(DragonBreedsRegistry.getDragonBreed(dragonModel.breed()));
-		dragon.setPos(dragonModel.position().x, dragonModel.position().y, dragonModel.position().z);
-		dragon.setAge(dragonModel.age());
-		dragon.setMaxAge(dragonModel.extras().getMaxAge());
+		dragon.load(dragonModel.getExtras().getNbt());
+		dragon.setBreed(DragonBreedsRegistry.getDragonBreed(dragonModel.getBreed()));
+		dragon.setPos(dragonModel.getPosition().x, dragonModel.getPosition().y, dragonModel.getPosition().z);
+		dragon.setAge(dragonModel.getAge());
+		dragon.setMaxAge(dragonModel.getExtras().getMaxAge());
 		
 		return dragon;
 	}

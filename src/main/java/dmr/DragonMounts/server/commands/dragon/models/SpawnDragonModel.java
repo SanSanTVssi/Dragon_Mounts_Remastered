@@ -1,65 +1,40 @@
 package dmr.DragonMounts.server.commands.dragon.models;
 
+import com.mojang.brigadier.context.CommandContext;
+import dmr.DragonMounts.server.commands.dragon.parsers.BrigadierArgs;
+import dmr.DragonMounts.server.commands.dragon.parsers.SpawnExtrasParser;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.commands.CommandSourceStack;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.phys.Vec3;
 
+@Getter
+@Setter
 public class SpawnDragonModel {
 	
-	private final String breed;
-	private final Vec3 position;
-	private final CompoundTag nbt;
-	private final Integer age;
-	private final DragonSpawnExtras extras;
+	private String breed;
+	private Vec3 position;
+	private Integer age;
 	
-	private SpawnDragonModel(
-			String breed,
-			Vec3 position,
-			Integer age,
-			DragonSpawnExtras extras,
-			CompoundTag nbt
-	) {
-		this.breed = breed;
-		this.position = position;
-		this.age = age;
-		this.extras = extras;
-		this.nbt = nbt;
-	}
+	private SpawnExtras extras = new SpawnExtras();
 	
-	public static SpawnDragonModel create(
-			String breed,
-			Vec3 position,
-			Integer age,
-			DragonSpawnExtras extras,
-			CompoundTag nbt,
-			CommandSourceStack source
-	) {
-		return new SpawnDragonModel(
-				breed,
-				position != null ? position : source.getPosition(),
-				age,
-				extras != null ? extras : new DragonSpawnExtras(),
-				nbt != null ? nbt : new CompoundTag()
-		);
-	}
-	
-	public String breed() {
-		return breed;
-	}
-	
-	public Vec3 position() {
-		return position;
-	}
-	
-	public Integer age() {
-		return age;
-	}
-	
-	public DragonSpawnExtras extras() {
-		return extras;
-	}
-	
-	public CompoundTag nbt() {
-		return nbt;
+	public static SpawnDragonModel parse(CommandContext<CommandSourceStack> ctx) {
+		var model = new SpawnDragonModel();
+		
+		var age = BrigadierArgs.parseAge(ctx);
+		if (age != null) model.setAge(age);
+		
+		var pos = BrigadierArgs.parsePos(ctx);
+		if (pos != null) model.setPosition(pos);
+		
+		var breed = BrigadierArgs.parseBreed(ctx);
+		if (breed != null) model.setBreed(breed);
+		
+		var argsRaw = BrigadierArgs.parseArgsRaw(ctx);
+		if (argsRaw != null) {
+			model.setExtras(SpawnExtrasParser.parse(argsRaw));
+		}
+		
+		return model;
 	}
 }
