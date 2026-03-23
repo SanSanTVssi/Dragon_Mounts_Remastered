@@ -3,14 +3,13 @@ package dmr.DragonMounts.server.commands.dragon.handlers;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
 import dmr.DragonMounts.network.packets.CompleteDataSync;
-import dmr.DragonMounts.server.commands.dragon.models.ClearWhistleModel;
 import dmr.DragonMounts.util.PlayerStateUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.DyeColor;
 import net.neoforged.neoforge.network.PacketDistributor;
 
-public class ClearWhistleCommandHandler {
+public class ClearWhistleHandler {
 	
 	public static int handle(CommandContext<CommandSourceStack> ctx) {
 		var source = ctx.getSource();

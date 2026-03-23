@@ -3,15 +3,28 @@ package dmr.DragonMounts.server.commands.dragon.parsers;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.context.CommandContext;
+import dmr.DragonMounts.server.commands.dragon.models.DragonAge;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.coordinates.Vec3Argument;
 import net.minecraft.world.phys.Vec3;
 
-public final class BrigadierArgParsers {
+public final class BrigadierArgs {
 	
 	public static Integer parseAge(CommandContext<CommandSourceStack> ctx) {
 		if (has(ctx, "age")) return null;
-		return IntegerArgumentType.getInteger(ctx, "age");
+		
+		var raw = StringArgumentType.getString(ctx, "age");
+		
+		try {
+			return DragonAge.valueOf(raw.toUpperCase()).ticks();
+		} catch (IllegalArgumentException ignored) {
+		}
+
+		try {
+			return Integer.parseInt(raw);
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Invalid age: " + raw);
+		}
 	}
 	
 	public static Vec3 parsePos(CommandContext<CommandSourceStack> ctx) {

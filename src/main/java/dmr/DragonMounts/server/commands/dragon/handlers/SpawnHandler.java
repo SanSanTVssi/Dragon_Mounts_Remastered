@@ -1,11 +1,11 @@
 package dmr.DragonMounts.server.commands.dragon.handlers;
 
 import com.mojang.brigadier.context.CommandContext;
-import dmr.DragonMounts.server.commands.dragon.factory.DragonFactory;
+import dmr.DragonMounts.server.commands.dragon.factory.DragonSpawner;
 import dmr.DragonMounts.server.commands.dragon.models.SpawnDragonModel;
 import net.minecraft.commands.CommandSourceStack;
 
-public class SpawnCommandHandler {
+public class SpawnHandler {
 	
 	public static int handle(CommandContext<CommandSourceStack> ctx) {
 		
@@ -14,7 +14,7 @@ public class SpawnCommandHandler {
 		var source = ctx.getSource();
 		var level = source.getLevel();
 		
-		var dragon = DragonFactory.create(level, model);
+		var dragon = DragonSpawner.create(level, model);
 		
 		level.addFreshEntity(dragon);
 		
