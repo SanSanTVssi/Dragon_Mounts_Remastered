@@ -14,7 +14,7 @@ public class ServerConfig {
 
     @Config(key = "growth_time", comment = "Time in seconds for a dragon to grow.")
     @RangeConstraint(min = 0, max = Integer.MAX_VALUE)
-    public static Long GROWTH_TIME_CONFIG = DragonConstants.GROWTH_TIME;
+    public static Long GROWTH_TIME_CONFIG_SEC = DragonConstants.GROWTH_TIME_SEC;
 
     @Config(
             key = "allow_egg_override",

@@ -9,6 +9,8 @@ import dmr.DragonMounts.server.blocks.DMREggBlock;
 import dmr.DragonMounts.server.entity.TameableDragonEntity;
 import dmr.DragonMounts.util.BreedingUtils;
 import java.util.Optional;
+
+import dmr.DragonMounts.util.TimeConverter;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
@@ -126,12 +128,19 @@ abstract class DragonBreedableComponent extends DragonBreedComponent {
     /**
      * Gets the age progress of the dragon (0.0 to 1.0).
      */
-    public float getAgeProgress() {
-        float growth = -(getDragon().getBreed().getGrowthTime() * 20);
-        float min = Math.min(getAge(), 0) * 20;
-        float ageProgress = 1 - (min / growth);
-        return Mth.clamp(ageProgress, 0, 1);
-    }
+//    public float getAgeProgress() {
+//        float growth = -(getDragon().getBreed().getGrowthTime() * 20);
+//        float min = Math.min(getAge(), 0) * 20;
+//        float ageProgress = 1 - (min / growth);
+//        return Mth.clamp(ageProgress, 0, 1);
+//    }
+	
+	public float getAgeProgress() {
+		float growthTicks = TimeConverter.toTicks(getDragon().getBreed().getGrowthTimeSec());
+		float ageTicks = Math.min(getAge(), 0);
+		float ageProgress = 1f - (ageTicks / -growthTicks);
+		return Mth.clamp(ageProgress, 0f, 1f);
+	}
 
     public boolean isAdult() {
         return getAgeProgress() >= 1f;
@@ -161,7 +170,7 @@ abstract class DragonBreedableComponent extends DragonBreedComponent {
      */
     @Override
     public void setBaby(boolean baby) {
-        setAge(baby ? -getDragon().getBreed().getGrowthTime() : 0);
+        setAge(baby ? -getDragon().getBreed().getGrowthTimeSec() : 0);
         updateAgeProperties();
     }
 

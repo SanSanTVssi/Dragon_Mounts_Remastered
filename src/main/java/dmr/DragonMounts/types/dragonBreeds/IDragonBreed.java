@@ -148,7 +148,7 @@ public interface IDragonBreed {
 
     int getHatchTime();
 
-    int getGrowthTime();
+    int getGrowthTimeSec();
 
     float getSizeModifier();
 

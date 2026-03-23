@@ -180,7 +180,7 @@ public class DMREggBlockEntity extends BlockEntity {
         baby.setVariant(data.getVariantId());
 
         baby.setBaby(true);
-        baby.setAge(-Math.abs(data.getBreed().getGrowthTime()));
+        baby.setAge(-Math.abs(data.getBreed().getGrowthTimeSec()));
         baby.setPos(pos.getX(), pos.getY(), pos.getZ());
 
         baby.setHatched(true);

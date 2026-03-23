@@ -105,8 +105,8 @@ public class DragonHybridBreed implements IDragonBreed {
     }
 
     @Override
-    public int getGrowthTime() {
-        return (parent1.getGrowthTime() + parent2.getGrowthTime()) / 2;
+    public int getGrowthTimeSec() {
+        return (parent1.getGrowthTimeSec() + parent2.getGrowthTimeSec()) / 2;
     }
 
     @Override
